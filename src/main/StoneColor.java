@@ -1,14 +1,16 @@
 package main;
 
 public enum StoneColor {
-    BLACK(0, "BLACK"),
-    WHITE(1, "WHITE");
+    BLACK(0, "BLACK", 1),
+    WHITE(1, "WHITE", -1);
     private int value;
     private String string;
+    private int sign;
 
-    private StoneColor(int value, String string) {
+    private StoneColor(int value, String string, int sign) {
         this.value = value;
         this.string = string;
+        this.sign = sign;
     }
 
     public static StoneColor getColor(int x) {
@@ -24,6 +26,10 @@ public enum StoneColor {
 
     public int getValue() {
         return value;
+    }
+    
+    public int getSign() {
+    	return sign;
     }
 
     @Override

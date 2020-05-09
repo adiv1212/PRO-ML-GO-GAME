@@ -36,7 +36,8 @@ public class Board extends JPanel {
         this.setFocusable(true);
         grid = new Grid(SIZE);
         // Black always starts
-        current_player = StoneColor.BLACK;
+        System.out.println("(press SPACE to pass)");
+        setPlayer(StoneColor.BLACK);
 
         this.addMouseListener(new MouseAdapter() {
 
@@ -85,10 +86,14 @@ public class Board extends JPanel {
 
     private void switchPlayer() {
         if (current_player == StoneColor.BLACK) {
-            current_player = StoneColor.WHITE;
+            setPlayer(StoneColor.WHITE);
         } else {
-            current_player = StoneColor.BLACK;
+            setPlayer(StoneColor.BLACK);
         }
+    }
+    
+    private void setPlayer(StoneColor color) {
+    	current_player = color;
         System.out.println(current_player + "'s turn.");
     }
 

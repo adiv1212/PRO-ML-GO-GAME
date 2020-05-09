@@ -41,7 +41,14 @@ public class Point {
 	public int getFlat() {
 		return row * SIZE + col;
 	}
-
+	
+	public double getSqrDist(Point other) {
+		return Math.pow(row - other.row, 2) + Math.pow(col - other.col, 2);
+	}
+	public double getDist(Point other) {
+		return Math.sqrt(getSqrDist(other));
+	}
+	
 	// equals and hashCode are needed for it to be used as a key
 
 	@Override

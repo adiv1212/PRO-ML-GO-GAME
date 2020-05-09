@@ -58,7 +58,7 @@ public class Test {
 	}
 
 	public static void test() {
-		Grid grid = getGrid(TEST_GRID2);
+		Grid grid = getGrid(TEST_GRID0);
 		Grid.RegionMap map = grid.getRegions();
 		for(Grid.Region r: map.regions) {
 			System.out.println(r.occup.name());
@@ -79,5 +79,14 @@ public class Test {
 		System.out.println(black);
 		System.out.println("WHITE:");
 		System.out.println(white);
+		
+		System.out.println("Influence info:");
+		float[][] influence = grid.getInfluence();
+		for(int i = 0; i < grid.SIZE; i++) {
+			for(int j = 0; j < grid.SIZE; j++) {
+				System.out.printf("%.2f\t", influence[i][j]);
+			}
+			System.out.println();
+		}
 	}
 }

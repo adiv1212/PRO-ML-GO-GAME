@@ -6,8 +6,9 @@ import java.util.*;
  * Provides game logic.
  */
 public class Grid {
-
-
+	
+	private static final boolean IS_DEBUG = false;
+	
     private void DEBUG() {
         int[][] liberties = new int[SIZE][SIZE];
         int[][] chain_liberties = new int[SIZE][SIZE];
@@ -56,8 +57,10 @@ public class Grid {
     private GridHistory history;
     public Map<Point, Stone> stones;
     private Collection<Move> queuedMoves;
-    private final int SIZE;
-    private static final float KOMI = 6.5f;
+    public final int SIZE;
+    public static final float KOMI = 6.5f;
+    
+    public static final float REACH = 1.5f; // Influence function parameter
 
     private static class Move {
         public enum Type {
@@ -311,7 +314,7 @@ public class Grid {
         conductQueue();
         //System.out.println(stones.get(point).liberties);
         pass = 0;
-        DEBUG();
+        if(IS_DEBUG) DEBUG();
         return true;
     }
 
@@ -566,6 +569,20 @@ public class Grid {
         } else {
             return StoneColor.WHITE;
         }
+    }
+    
+    public float[][] getInfluence() {
+    	float[][] influence = new float[SIZE][SIZE];
+    	for(Point point: stones.keySet()) {
+    		int sign = stones.get(point).StoneColor.getSign();
+    		for(int i = 0; i < SIZE; i++) {
+    			for(int j = 0; j < SIZE; j++) {
+    				double sqrDist = point.getSqrDist(new Point(i, j));
+    				influence[i][j] += sign*Math.exp(-sqrDist/Math.pow(REACH, 2)/2);
+            }
+    		}
+    	}
+    	return influence;
     }
 
     /**

@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.*;
+import test.Test;
 import java.awt.*;
 
 /**
@@ -11,7 +12,10 @@ public class App {
     public static final String TITLE = "";
     public static final int BORDER_SIZE = 25;
 
+    private static final boolean IS_TEST = false;
+    
     public static void main(String[] args) {
+    	if(IS_TEST) Test.test();
         new App().init();
     }
 
