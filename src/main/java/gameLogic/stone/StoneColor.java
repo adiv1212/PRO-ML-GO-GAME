@@ -1,4 +1,4 @@
-package main.gameLogic.stone;
+package gameLogic.stone;
 
 public enum StoneColor {
     BLACK(0, "BLACK", 1),

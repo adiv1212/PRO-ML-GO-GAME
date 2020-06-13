@@ -1,9 +1,9 @@
-package main.gameLogic;
+package gameLogic;
 
-import main.gameLogic.stone.Chain;
-import main.gameLogic.stone.Point;
-import main.gameLogic.stone.Stone;
-import main.gameLogic.stone.StoneColor;
+import gameLogic.stone.Chain;
+import gameLogic.stone.Point;
+import gameLogic.stone.Stone;
+import gameLogic.stone.StoneColor;
 
 import java.util.*;
 

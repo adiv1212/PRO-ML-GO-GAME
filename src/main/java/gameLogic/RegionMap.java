@@ -1,6 +1,7 @@
-package main.gameLogic;
+package gameLogic;
 
-import main.gameLogic.stone.Point;
+
+import gameLogic.stone.Point;
 
 import java.util.Collection;
 import java.util.Map;

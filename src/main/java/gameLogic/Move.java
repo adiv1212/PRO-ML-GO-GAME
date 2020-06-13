@@ -1,8 +1,8 @@
-package main.gameLogic;
+package gameLogic;
 
-import main.gameLogic.stone.Point;
-import main.gameLogic.stone.Stone;
-import main.gameLogic.stone.StoneColor;
+import gameLogic.stone.Point;
+import gameLogic.stone.Stone;
+import gameLogic.stone.StoneColor;
 
 public class Move {
     public enum Type {

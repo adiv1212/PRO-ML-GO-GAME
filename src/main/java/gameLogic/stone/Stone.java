@@ -1,4 +1,4 @@
-package main.gameLogic.stone;
+package gameLogic.stone;
 
 /**
  * Basic game element.

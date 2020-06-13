@@ -1,7 +1,7 @@
-package main.gameLogic;
+package gameLogic;
 
-import main.gameLogic.stone.Point;
-import main.gameLogic.stone.StoneColor;
+import gameLogic.stone.Point;
+import gameLogic.stone.StoneColor;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,7 @@
-package main.gameLogic.stone;
+package gameLogic.stone;
 
-import main.gameLogic.Grid;
+
+import gameLogic.Grid;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,8 +1,5 @@
-package main;
-
-import main.gameLogic.board.Board;
-import main.gameLogic.board.Clients.HumanClient;
-import test.Test;
+import gameLogic.board.Board;
+import gameLogic.board.Clients.HumanClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +15,6 @@ public class App {
     private static final boolean IS_TEST = false;
 
     public static void main(String[] args) {
-        if (IS_TEST) Test.test();
         new App().init();
     }
 

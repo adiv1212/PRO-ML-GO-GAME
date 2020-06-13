@@ -1,6 +1,6 @@
-package main.gameLogic;
+package gameLogic;
 
-import main.gameLogic.stone.StoneColor;
+import gameLogic.stone.StoneColor;
 
 public enum Occup {
     BLACK, WHITE, UNDECIDED;

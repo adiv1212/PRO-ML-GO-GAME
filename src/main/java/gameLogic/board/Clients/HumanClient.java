@@ -1,7 +1,7 @@
-package main.gameLogic.board.Clients;
+package gameLogic.board.Clients;
 
-import main.gameLogic.board.Board;
-import main.gameLogic.stone.Point;
+import gameLogic.board.Board;
+import gameLogic.stone.Point;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

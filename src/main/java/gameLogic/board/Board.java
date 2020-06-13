@@ -1,9 +1,9 @@
-package main.gameLogic.board;
+package gameLogic.board;
 
-import main.gameLogic.board.Clients.Client;
-import main.gameLogic.Grid;
-import main.gameLogic.stone.Point;
-import main.gameLogic.stone.StoneColor;
+import gameLogic.Grid;
+import gameLogic.board.Clients.Client;
+import gameLogic.stone.Point;
+import gameLogic.stone.StoneColor;
 
 import javax.swing.*;
 import java.awt.*;
