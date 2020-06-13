@@ -24,3 +24,8 @@ hs_err_pid*
 .classpath
 .project
 .settings
+
+# intellij
+.idea
+*.iml
+out

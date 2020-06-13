@@ -1,4 +1,7 @@
-package main;
+package main.gameLogic;
+
+import main.gameLogic.stone.Point;
+import main.gameLogic.stone.StoneColor;
 
 import java.util.Random;
 

@@ -1,15 +1,15 @@
-package main;
+package main.gameLogic.stone;
 
 public enum StoneColor {
     BLACK(0, "BLACK", 1),
     WHITE(1, "WHITE", -1);
     private int value;
-    private String string;
+    private String name;
     private int sign;
 
-    private StoneColor(int value, String string, int sign) {
+    private StoneColor(int value, String name, int sign) {
         this.value = value;
-        this.string = string;
+        this.name = name;
         this.sign = sign;
     }
 
@@ -24,16 +24,17 @@ public enum StoneColor {
         return null;
     }
 
+
     public int getValue() {
         return value;
     }
-    
+
     public int getSign() {
-    	return sign;
+        return sign;
     }
 
     @Override
     public String toString() {
-        return string;
+        return name;
     }
 }

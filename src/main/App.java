@@ -1,6 +1,8 @@
 package main;
 
 import javax.swing.*;
+
+import main.gameLogic.Board;
 import test.Test;
 import java.awt.*;
 

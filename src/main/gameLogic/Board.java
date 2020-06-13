@@ -1,4 +1,7 @@
-package main;
+package main.gameLogic;
+
+import main.gameLogic.stone.Point;
+import main.gameLogic.stone.StoneColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +29,6 @@ public class Board extends JPanel {
     /**
      * Black/white player/stone
      */
-
     private StoneColor current_player;
     private Grid grid;
     private Point lastMove;
@@ -58,7 +60,7 @@ public class Board extends JPanel {
                     return;
                 }
 
-                if (!grid.addStone(row, col, current_player)) {
+                if (!grid.addStone(new Point(row, col), current_player)) {
                     return;
                 }
 
@@ -91,9 +93,9 @@ public class Board extends JPanel {
             setPlayer(StoneColor.BLACK);
         }
     }
-    
+
     private void setPlayer(StoneColor color) {
-    	current_player = color;
+        current_player = color;
         System.out.println(current_player + "'s turn.");
     }
 
@@ -135,8 +137,8 @@ public class Board extends JPanel {
         // Highlight last move
         if (lastMove != null) {
             g2.setColor(Color.RED);
-            g2.drawOval(lastMove.row * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
-                    lastMove.col * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
+            g2.drawOval(lastMove.getRow() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
+                    lastMove.getCol() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
                     TILE_SIZE, TILE_SIZE);
         }
     }
@@ -146,5 +148,4 @@ public class Board extends JPanel {
         return new Dimension(N_OF_TILES * TILE_SIZE + BORDER_SIZE * 2,
                 N_OF_TILES * TILE_SIZE + BORDER_SIZE * 2);
     }
-
 }

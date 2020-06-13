@@ -1,4 +1,9 @@
-package main;
+package main.gameLogic;
+
+import main.gameLogic.stone.Chain;
+import main.gameLogic.stone.Point;
+import main.gameLogic.stone.Stone;
+import main.gameLogic.stone.StoneColor;
 
 import java.util.*;
 
@@ -6,177 +11,14 @@ import java.util.*;
  * Provides game logic.
  */
 public class Grid {
-	
-	private static final boolean IS_DEBUG = false;
-	
-    private void DEBUG() {
-        int[][] liberties = new int[SIZE][SIZE];
-        int[][] chain_liberties = new int[SIZE][SIZE];
-        Collection<Chain> chains = new ArrayList<>();
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                liberties[i][j] = -1;
-                chain_liberties[i][j] = -1;
-            }
-        }
-        for (Point p : stones.keySet()) {
-            Stone s = stones.get(p);
-            liberties[p.row][p.col] = s.liberties;
-            chain_liberties[p.row][p.col] = s.chain.getLiberties();
-            if (!chains.contains(s.chain)) {
-                chains.add(s.chain);
-            }
-        }
-        System.out.println("\nLIBERTIES:");
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                int x = liberties[i][j];
-                char c = (x == -1) ? '.' : (char) ('0' + x);
-                System.out.print(c + " ");
-            }
-            System.out.println();
-        }
 
-        System.out.println("\nCHAIN LIBERTIES:");
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                int x = chain_liberties[i][j];
-                char c = (x == -1) ? '.' : (char) ('0' + x);
-                System.out.print(c + " ");
-            }
-            System.out.println();
-        }
-
-        System.out.println("CHAINS:");
-        for (Chain c : chains) {
-            System.out.println(c);
-        }
-    }
-
-    private int pass;
-    private GridHistory history;
-    public Map<Point, Stone> stones;
-    private Collection<Move> queuedMoves;
-    public final int SIZE;
     public static final float KOMI = 6.5f;
-    
     public static final float REACH = 1.5f; // Influence function parameter
-
-    private static class Move {
-        public enum Type {
-            ADD, REMOVE
-        }
-
-        public Type type;
-        public Point pos;
-        public StoneColor color;
-
-        public Move(Type type, Point pos, StoneColor color) {
-            this.type = type;
-            this.pos = pos;
-            this.color = color;
-        }
-
-        public Move(Type type, int row, int col, StoneColor color) {
-            this(type, new Point(row, col), color);
-        }
-
-        public Move(Type type, Stone stone) {
-            this(type, stone.row, stone.col, stone.StoneColor);
-        }
-    }
-
-
-    public Stone getStone(Move m) {
-        return new Stone(m.pos, m.color);
-    }
-
-    /**
-     * Basic game element.
-     */
-    public class Stone {
-
-        public Chain chain;
-        public StoneColor StoneColor;
-        public int liberties; // to be set by Grid
-        // Row and col are need to remove (set to null) this Stone from Grid
-        public int row;
-        public int col;
-
-        public Stone(int row, int col, StoneColor StoneColor) {
-            chain = null;
-            this.StoneColor = StoneColor;
-            this.row = row;
-            this.col = col;
-            liberties = 0;
-        }
-
-        public Stone(Point p, StoneColor color) {
-            this(p.row, p.col, color);
-        }
-
-        @Override
-        public String toString() {
-            return StoneColor.toString();
-        }
-    }
-
-    /**
-     * A collection of adjacent Stone(s).
-     */
-    public class Chain {
-
-        public Collection<Stone> stones;
-        private Collection<Point> liberties;
-        public StoneColor StoneColor;
-
-        public Chain(Stone stone) {
-            this(stone.StoneColor);
-            addStone(stone);
-        }
-
-        public Chain(StoneColor StoneColor) {
-            stones = new ArrayList<>();
-            liberties = new HashSet<>();
-            this.StoneColor = StoneColor;
-        }
-
-        public int getLiberties() {
-            return liberties.size();
-        }
-
-        public void addStone(Stone stone) {
-            stone.chain = this;
-            stones.add(stone);
-            Point newP = new Point(stone.row, stone.col);
-            for (Point p : newP.getNeighbors()) {
-                if (!isOccupied(p))
-                    liberties.add(p);
-            }
-        }
-
-        public void join(Chain chain) {
-            if (chain == this)
-                return;
-            for (Stone s : chain.stones) {
-                addStone(s);
-            }
-        }
-
-        @Override
-        public String toString() {
-            String str = "Stones:\n";
-            for (Stone s : stones) {
-                str += "" + s.row + ' ' + s.col + '\n';
-            }
-            str += "\nliberties:\n";
-            for (Point p : liberties) {
-                str += p + "\n";
-            }
-
-            return str;
-        }
-    }
+    public final int SIZE;
+    public Map<Point, Stone> stones;
+    private int pass;
+    private final GridHistory history;
+    private final Collection<Move> queuedMoves;
 
     public Grid(int size) {
         history = new GridHistory();
@@ -184,6 +26,10 @@ public class Grid {
         queuedMoves = new ArrayList<>();
         pass = 0;
         SIZE = size;
+    }
+
+    public Stone getStone(Move m) {
+        return new Stone(m.point, m.color);
     }
 
     public void passTurn() {
@@ -196,17 +42,17 @@ public class Grid {
 
             case ADD:
                 Stone newStone = getStone(m);
-                stones.put(m.pos, newStone);
+                stones.put(m.point, newStone);
                 Chain chain = new Chain(newStone);
 
-                for (Point neighbor : m.pos.getNeighbors()) {
-                    if (!isOccupied(neighbor)) {
+                for (Point neighbor : m.point.getNeighbors()) {
+                    if (!stones.containsKey(neighbor)) {
                         newStone.liberties++;
                         continue;
                     }
                     Stone neighborStone = stones.get(neighbor);
                     neighborStone.liberties--;
-                    neighborStone.chain.liberties.remove(m.pos);
+                    neighborStone.chain.liberties.remove(m.point);
 
                     if (neighborStone.StoneColor == m.color) {
                         chain.join(neighborStone.chain);
@@ -215,12 +61,12 @@ public class Grid {
                 break;
 
             case REMOVE:
-                stones.remove(m.pos);
-                for (Point neighbor : m.pos.getNeighbors()) {
-                    if (!isOccupied(neighbor)) continue;
-                    Stone s = stones.get(neighbor);
-                    s.liberties++;
-                    s.chain.liberties.add(m.pos);
+                stones.remove(m.point);
+                for (Point neighbor : m.point.getNeighbors()) {
+                    if (!stones.containsKey(neighbor)) continue;
+                    Stone stone = stones.get(neighbor);
+                    stone.liberties++;
+                    stone.chain.liberties.add(m.point);
                 }
 
         }
@@ -238,12 +84,12 @@ public class Grid {
         int chainLiberties;
         for (Point neighbor : p.getNeighbors()) {
             // If there's no stone, it's not a suicide move.
-            if (!isOccupied(neighbor))
+            if (!stones.containsKey(neighbor))
                 return false;
 
             tempStone = stones.get(neighbor);
             tempStoneColor = tempStone.StoneColor;
-            chainLiberties = tempStone.chain.getLiberties();
+            chainLiberties = tempStone.chain.liberties.size();
 
             if (tempStoneColor == StoneColor && chainLiberties > 1
                     || tempStoneColor != StoneColor && chainLiberties <= 1)
@@ -252,28 +98,9 @@ public class Grid {
         return true;
     }
 
-    /**
-     * Adds Stone to Grid.
-     *
-     * @param row
-     * @param col
-     * @param color
-     */
-
-
-    public boolean addStone(int row, int col, StoneColor color) {
-        return addStone(new Point(row, col), color);
-    }
-
     public boolean addStone(Point point, StoneColor color) {
-//	System.out.println("move at: " + point);
-//	System.out.println("nieghbors: ");
-//	for(Point p : point.getNeighbors()) {
-//		System.out.println(p);
-//	}
         if (over()) return false;
-
-        if (isOccupied(point)) {
+        if (stones.containsKey(point)) {
             System.out.println("Someone is sitting in your spot.");
             return false;
         }
@@ -281,23 +108,21 @@ public class Grid {
             System.out.println("Suicide move.");
             return false;
         }
-
-
         history.remember();
         history.update(point, color);
         queuedMoves.add(new Move(Move.Type.ADD, point, color));
 
         for (Point neighbor : point.getNeighbors()) {
-            if (!isOccupied(neighbor))
+            if (!stones.containsKey(neighbor))
                 continue;
 
             Stone neighborStone = stones.get(neighbor);
             StoneColor neighborColor = neighborStone.StoneColor;
             if (neighborColor != color) {
                 Chain chain = neighborStone.chain;
-                if (chain.getLiberties() == 1) {
+                if (chain.liberties.size() == 1) {
                     for (Stone stone : chain.stones) {
-                        history.update(stone.row, stone.col, stone.StoneColor);
+                        history.update(stone.point, stone.StoneColor);
                         queuedMoves.add(new Move(Move.Type.REMOVE, stone));
                     }
                 }
@@ -314,80 +139,13 @@ public class Grid {
         conductQueue();
         //System.out.println(stones.get(point).liberties);
         pass = 0;
-        if(IS_DEBUG) DEBUG();
         return true;
     }
 
-/*******************************************************************/
-/*******************************************************************/
-    /*******************************************************************/
-
-    public enum Occup {
-        BLACK, WHITE, UNDECIDED
-    }
-
-    public static class Region {
-        public Occup occup;
-        public Collection<Point> points;
-
-        Region() {
-            points = new ArrayList<>();
-        }
-
-        Region(Occup occup, Collection<Point> points) {
-            this.occup = occup;
-            this.points = points;
-        }
-
-        @Override
-        public String toString() {
-            String result = occup.name() + '\n';
-            for (Point p : points) {
-                result += p;
-                result += '\n';
-            }
-            result += '\n';
-            return result;
-        }
-    }
-
-    public static class RegionMap {
-        public Collection<Region> regions;
-        public Map<Point, Region> regionMap;
-
-        RegionMap(Collection<Region> regions,
-                  Map<Point, Region> regionMap) {
-            this.regions = regions;
-            this.regionMap = regionMap;
-        }
-
-        @Override
-        public String toString() {
-            String result = "";
-            for (Region r : regions)
-                result += r;
-            return result;
-        }
-    }
-
-    private Occup getOccup(StoneColor color) {
-        switch (color) {
-            case BLACK:
-                return Occup.BLACK;
-            case WHITE:
-                return Occup.WHITE;
-            default:
-                return Occup.UNDECIDED;
-        }
-    }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-// assuming region previously had Occupation prev, and a stone whose color is color, finds the next occup.
-
+    // assuming region previously had Occupation prev, and a stone whose color is color, finds the next occup.
     private Occup newOccup(Occup prev, StoneColor color) {
         if (prev == null)
-            return getOccup(color);
+            return Occup.getOccup(color);
 
         switch (prev) {
             case UNDECIDED:
@@ -397,7 +155,7 @@ public class Grid {
             case WHITE:
                 return color == StoneColor.BLACK ? Occup.UNDECIDED : Occup.WHITE;
             default:
-                return getOccup(color);
+                return Occup.getOccup(color);
         }
     }
 
@@ -465,7 +223,7 @@ public class Grid {
 
     // returns whether a region is small and of some color, AKA is surrounded by that color and has no free points
     public boolean isSmall(Region r, StoneColor color) {
-        if (r.occup != getOccup(color)) return false;
+        if (r.occup != Occup.getOccup(color)) return false;
 
         for (Point p : r.points) {
             if (isFree(p))
@@ -542,16 +300,12 @@ public class Grid {
         int score = 0;
         for (Chain c : chainMap.keySet()) {
             if (chainMap.get(c).size() > 0) {
-//			System.out.println("chain:");
-//			System.out.println(c);
                 score += c.stones.size();
             }
         }
 
         for (Region r : regionMap.keySet()) {
             if (regionMap.get(r).size() > 0) {
-//			System.out.println("region:");
-//			System.out.println(r);
                 score += r.points.size();
             }
         }
@@ -560,7 +314,6 @@ public class Grid {
     }
 
     public StoneColor winner() {
-        //removeDeadStones();
         int black = getScore(StoneColor.BLACK);
         int white = getScore(StoneColor.WHITE);
 
@@ -570,39 +323,24 @@ public class Grid {
             return StoneColor.WHITE;
         }
     }
-    
+
     public float[][] getInfluence() {
-    	float[][] influence = new float[SIZE][SIZE];
-    	for(Point point: stones.keySet()) {
-    		int sign = stones.get(point).StoneColor.getSign();
-    		for(int i = 0; i < SIZE; i++) {
-    			for(int j = 0; j < SIZE; j++) {
-    				double sqrDist = point.getSqrDist(new Point(i, j));
-    				influence[i][j] += sign*Math.exp(-sqrDist/Math.pow(REACH, 2)/2);
+        float[][] influence = new float[SIZE][SIZE];
+        for (Point point : stones.keySet()) {
+            int sign = stones.get(point).StoneColor.getSign();
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    double sqrDist = point.getSqrDist(new Point(i, j));
+                    influence[i][j] += sign * Math.exp(-sqrDist / Math.pow(REACH, 2) / 2);
+                }
             }
-    		}
-    	}
-    	return influence;
-    }
-
-    /**
-     * Returns true if given position is occupied by any stone
-     *
-     * @param point
-     * @return true if given position is occupied
-     */
-
-    private boolean isOccupied(Point point) {
-        return stones.containsKey(point);
+        }
+        return influence;
     }
 
     /**
      * Returns StoneColor (black/white) of given position or null if it's unoccupied.
      * Needs valid row and column.
-     *
-     * @param row
-     * @param col
-     * @return
      */
     public StoneColor getStoneColor(int row, int col) {
         Stone stone = stones.get(new Point(row, col));
