@@ -1,6 +1,6 @@
 package main.gameLogic.stone;
 
-import main.gameLogic.Board;
+import main.gameLogic.board.Board;
 
 import java.util.ArrayList;
 import java.util.Collection;

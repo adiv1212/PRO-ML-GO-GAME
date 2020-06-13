@@ -24,7 +24,6 @@ public enum StoneColor {
         return null;
     }
 
-
     public int getValue() {
         return value;
     }

@@ -1,9 +1,10 @@
 package main;
 
-import javax.swing.*;
-
-import main.gameLogic.Board;
+import main.gameLogic.board.Board;
+import main.gameLogic.board.Clients.HumanClient;
 import test.Test;
+
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -15,9 +16,9 @@ public class App {
     public static final int BORDER_SIZE = 25;
 
     private static final boolean IS_TEST = false;
-    
+
     public static void main(String[] args) {
-    	if(IS_TEST) Test.test();
+        if (IS_TEST) Test.test();
         new App().init();
     }
 
@@ -31,12 +32,15 @@ public class App {
         f.add(container);
         container.setBorder(BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE));
 
-        Board board = new Board();
+        Board board = Board.getInstance();
+        HumanClient player1 = new HumanClient();
+        HumanClient player2 = new HumanClient();
         container.add(board);
 
         f.pack();
         f.setResizable(false);
         f.setLocationByPlatform(true);
         f.setVisible(true);
+        board.startGame(player1, player2);
     }
 }

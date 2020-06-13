@@ -1,5 +1,6 @@
 package main.gameLogic;
 
+import main.gameLogic.board.Board;
 import main.gameLogic.stone.Point;
 import main.gameLogic.stone.StoneColor;
 

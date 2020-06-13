@@ -1,19 +1,15 @@
-package main.gameLogic;
+package main.gameLogic.board;
 
+import main.gameLogic.board.Clients.Client;
+import main.gameLogic.Grid;
 import main.gameLogic.stone.Point;
 import main.gameLogic.stone.StoneColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Board extends JPanel {
-
-    private static final long serialVersionUID = -494530433694385328L;
-
+    private static final Board instance = new Board();
     /**
      * Number of rows/columns.
      */
@@ -26,81 +22,62 @@ public class Board extends JPanel {
     public static final int TILE_SIZE = 40;
     public static final int BORDER_SIZE = TILE_SIZE;
 
+    public Client getPlayer1() {
+        return player1;
+    }
+
+    public Client getPlayer2() {
+        return player2;
+    }
+
+    public Client getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     /**
      * Black/white player/stone
      */
-    private StoneColor current_player;
-    private Grid grid;
-    private Point lastMove;
+    private Client player1, player2, currentPlayer;
+    public Grid grid;
+    public Point lastMove = null;
 
-    public Board() {
+    private Board() {
+    }
+
+    public void startGame(Client player1, Client player2) {
         this.setBackground(Color.ORANGE);
         this.setFocusable(true);
         grid = new Grid(SIZE);
+        this.player1 = player1;
+        this.player2 = player2;
         // Black always starts
-        System.out.println("(press SPACE to pass)");
-        setPlayer(StoneColor.BLACK);
-
-        this.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // Converts to float for float division and then rounds to
-                // provide nearest intersection.
-                int row = Math.round((float) (e.getY() - BORDER_SIZE)
-                        / TILE_SIZE);
-                int col = Math.round((float) (e.getX() - BORDER_SIZE)
-                        / TILE_SIZE);
-
-                // DEBUG INFO
-                // System.out.println(String.format("y: %d, x: %d", row, col));
-
-                // Check wherever it's valid
-                if (row >= SIZE || col >= SIZE || row < 0 || col < 0) {
-                    return;
-                }
-
-                if (!grid.addStone(new Point(row, col), current_player)) {
-                    return;
-                }
-
-                lastMove = new Point(col, row);
-
-                switchPlayer();
-                repaint();
+        this.player1.setColor(StoneColor.BLACK);
+        this.player2.setColor(StoneColor.WHITE);
+        this.currentPlayer = player1;
+        this.currentPlayer.play();
+        while (!grid.over()) {
+            if (lastMove != null) {
+                this.lastMove = null;
+                this.switchPlayer();
+                this.currentPlayer.play();
             }
-        });
-
-        this.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    grid.passTurn();
-                    switchPlayer();
-                    if (grid.over()) {
-                        System.out.println(grid.winner() + " wins.");
-                    }
-                }
-            }
-        });
-    }
-
-    private void switchPlayer() {
-        if (current_player == StoneColor.BLACK) {
-            setPlayer(StoneColor.WHITE);
-        } else {
-            setPlayer(StoneColor.BLACK);
         }
     }
 
-    private void setPlayer(StoneColor color) {
-        current_player = color;
-        System.out.println(current_player + "'s turn.");
+    public static Board getInstance() {
+        return instance;
+    }
+
+    public void switchPlayer() {
+        if (currentPlayer == player1) {
+            this.currentPlayer = player2;
+        } else {
+            this.currentPlayer = player1;
+        }
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
