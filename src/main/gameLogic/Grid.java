@@ -15,7 +15,7 @@ public class Grid {
     public static final float KOMI = 6.5f;
     public static final float REACH = 1.5f; // Influence function parameter
     public final int SIZE;
-    public Map<Point, Stone> stones;
+    public static Map<Point, Stone> stones;
     private int pass;
     private final GridHistory history;
     private final Collection<Move> queuedMoves;
@@ -63,7 +63,8 @@ public class Grid {
             case REMOVE:
                 stones.remove(m.point);
                 for (Point neighbor : m.point.getNeighbors()) {
-                    if (!stones.containsKey(neighbor)) continue;
+                    if (!stones.containsKey(neighbor))
+                        continue;
                     Stone stone = stones.get(neighbor);
                     stone.liberties++;
                     stone.chain.liberties.add(m.point);

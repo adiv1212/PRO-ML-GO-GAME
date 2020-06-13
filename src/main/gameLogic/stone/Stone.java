@@ -11,10 +11,10 @@ public class Stone {
     public Point point;
 
     public Stone(Point point, StoneColor StoneColor) {
-        chain = null;
+        this.chain = null;
         this.StoneColor = StoneColor;
         this.point = point;
-        liberties = 0;
+        this.liberties = 0;
     }
 
     @Override

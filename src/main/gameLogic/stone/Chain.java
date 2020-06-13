@@ -1,5 +1,7 @@
 package main.gameLogic.stone;
 
+import main.gameLogic.Grid;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,21 +17,21 @@ public class Chain {
 
     public Chain(Stone stone) {
         this(stone.StoneColor);
-        addStone(stone);
+        this.addStone(stone);
     }
 
     public Chain(StoneColor StoneColor) {
-        stones = new ArrayList<>();
-        liberties = new HashSet<>();
+        this.stones = new ArrayList<>();
+        this.liberties = new HashSet<>();
         this.StoneColor = StoneColor;
     }
 
     public void addStone(Stone stone) {
         stone.chain = this;
-        stones.add(stone);
-        for (Point point : stone.point.getNeighbors()) {
-            if (!stones.contains(stone))
-                liberties.add(point);
+        this.stones.add(stone);
+        for (Point p : stone.point.getNeighbors()) {
+            if (!Grid.stones.containsKey(p))
+                liberties.add(p);
         }
     }
 
@@ -37,7 +39,7 @@ public class Chain {
         if (chain == this)
             return;
         for (Stone s : chain.stones) {
-            addStone(s);
+            this.addStone(s);
         }
     }
 
@@ -51,7 +53,6 @@ public class Chain {
         for (Point p : liberties) {
             str += p + "\n";
         }
-
         return str;
     }
 }
