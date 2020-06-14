@@ -1,12 +1,13 @@
-package gameLogic.board;
+package main.java.gameLogic.board;
 
-import gameLogic.Grid;
-import gameLogic.board.Clients.Client;
-import gameLogic.stone.Point;
-import gameLogic.stone.StoneColor;
-
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.JPanel;
+
+import main.java.gameLogic.Grid;
+import main.java.gameLogic.board.Clients.Client;
+import main.java.gameLogic.stone.Point;
+import main.java.gameLogic.stone.StoneColor;
 
 public class Board extends JPanel {
     private static final Board instance = new Board();

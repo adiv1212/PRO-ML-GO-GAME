@@ -1,11 +1,8 @@
-package gameLogic.stone;
+package main.java.gameLogic.stone;
 
+import java.util.*;
 
-import gameLogic.Grid;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import main.java.gameLogic.Grid;
 
 /**
  * A collection of adjacent Stone(s).

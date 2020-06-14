@@ -1,4 +1,4 @@
-package ml;
+package main.java.ml;
 
 import java.util.Random;
 

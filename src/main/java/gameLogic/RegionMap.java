@@ -1,10 +1,8 @@
-package gameLogic;
+package main.java.gameLogic;
 
+import java.util.*;
 
-import gameLogic.stone.Point;
-
-import java.util.Collection;
-import java.util.Map;
+import main.java.gameLogic.stone.Point;
 
 public class RegionMap {
     public Collection<Region> regions;

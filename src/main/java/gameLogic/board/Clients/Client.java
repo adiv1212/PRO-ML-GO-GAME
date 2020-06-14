@@ -1,6 +1,6 @@
-package gameLogic.board.Clients;
+package main.java.gameLogic.board.Clients;
 
-import gameLogic.stone.StoneColor;
+import main.java.gameLogic.stone.StoneColor;
 
 public abstract class Client {
     private StoneColor color;

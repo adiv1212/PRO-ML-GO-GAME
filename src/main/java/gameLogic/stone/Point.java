@@ -1,9 +1,8 @@
-package gameLogic.stone;
+package main.java.gameLogic.stone;
 
-import gameLogic.board.Board;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import main.java.gameLogic.board.Board;
 
 /**
  * represents a 2D point on a grid.

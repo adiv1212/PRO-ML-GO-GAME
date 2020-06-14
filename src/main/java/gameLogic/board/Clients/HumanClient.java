@@ -1,12 +1,12 @@
-package gameLogic.board.Clients;
-
-import gameLogic.board.Board;
-import gameLogic.stone.Point;
+package main.java.gameLogic.board.Clients;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import main.java.gameLogic.board.Board;
+import main.java.gameLogic.stone.Point;
 
 public class HumanClient extends Client {
     public HumanClient() {

@@ -1,8 +1,13 @@
-import gameLogic.board.Board;
-import gameLogic.board.Clients.HumanClient;
+package main.java;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import main.java.gameLogic.board.Board;
+import main.java.gameLogic.board.Clients.HumanClient;
 
 /**
  * Builds UI and starts the game.

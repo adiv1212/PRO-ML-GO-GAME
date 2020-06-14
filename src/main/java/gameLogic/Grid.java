@@ -1,11 +1,12 @@
-package gameLogic;
-
-import gameLogic.stone.Chain;
-import gameLogic.stone.Point;
-import gameLogic.stone.Stone;
-import gameLogic.stone.StoneColor;
+package main.java.gameLogic;
 
 import java.util.*;
+
+import main.java.gameLogic.stone.Chain;
+import main.java.gameLogic.stone.Point;
+import main.java.gameLogic.stone.Stone;
+import main.java.gameLogic.stone.StoneColor;
+
 
 /**
  * Provides game logic.

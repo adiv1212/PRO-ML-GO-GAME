@@ -1,10 +1,9 @@
-package gameLogic;
+package main.java.gameLogic;
 
-import gameLogic.stone.Point;
-import gameLogic.stone.StoneColor;
+import java.util.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import main.java.gameLogic.stone.Point;
+import main.java.gameLogic.stone.StoneColor;
 
 /**
  * Stores a hashed history of the game,

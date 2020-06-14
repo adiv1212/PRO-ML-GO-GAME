@@ -1,11 +1,15 @@
 package test;
 
 import main.gameLogic.*;
-import main.gameLogic.stone.Chain;
-import main.gameLogic.stone.Point;
-import main.gameLogic.stone.StoneColor;
+import main.java.gameLogic.Grid;
+import main.java.gameLogic.Region;
+import main.java.gameLogic.RegionMap;
+import main.java.gameLogic.stone.Chain;
+import main.java.gameLogic.stone.Point;
+import main.java.gameLogic.stone.StoneColor;
 
-import static main.gameLogic.stone.StoneColor.getColor;
+import static main.java.gameLogic.stone.StoneColor.getColor;
+
 
 public class Test {
     static final int[][] TEST_GRID0 = {

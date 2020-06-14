@@ -1,10 +1,10 @@
-package gameLogic;
+package main.java.gameLogic;
 
-import gameLogic.board.Board;
-import gameLogic.stone.Point;
-import gameLogic.stone.StoneColor;
+import java.util.*;
 
-import java.util.Random;
+import main.java.gameLogic.board.Board;
+import main.java.gameLogic.stone.Point;
+import main.java.gameLogic.stone.StoneColor;
 
 /**
  * Uses Zobrist hashing to store a hash of the game state.

@@ -1,4 +1,4 @@
-package ml;
+package main.java.ml;
 
 import rlpark.plugin.rltoys.algorithms.functions.states.Projector;
 import rlpark.plugin.rltoys.envio.actions.Action;

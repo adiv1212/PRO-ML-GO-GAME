@@ -1,9 +1,8 @@
-package gameLogic;
+package main.java.gameLogic;
 
-import gameLogic.stone.Point;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import main.java.gameLogic.stone.Point;
 
 public class Region {
     public Occup occup;
