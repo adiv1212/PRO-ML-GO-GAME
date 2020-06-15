@@ -7,6 +7,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import main.java.gameLogic.board.Board;
+import main.java.gameLogic.board.Clients.Client;
+import main.java.gameLogic.board.Clients.CpuClient;
 import main.java.gameLogic.board.Clients.HumanClient;
 
 /**
@@ -34,8 +36,8 @@ public class App {
         container.setBorder(BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE));
 
         Board board = Board.getInstance();
-        HumanClient player1 = new HumanClient();
-        HumanClient player2 = new HumanClient();
+        Client player1 = new HumanClient();
+        Client player2 = new CpuClient();
         container.add(board);
 
         f.pack();

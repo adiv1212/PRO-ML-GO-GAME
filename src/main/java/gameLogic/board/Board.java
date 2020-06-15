@@ -59,7 +59,7 @@ public class Board extends JPanel {
         while (!grid.over()) {
             if (lastMove != null) {
                 this.lastMove = null;
-                this.switchPlayer();
+                //this.switchPlayer();
                 this.currentPlayer.play();
             }
         }

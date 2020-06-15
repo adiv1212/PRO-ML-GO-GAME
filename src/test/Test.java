@@ -1,6 +1,5 @@
 package test;
 
-import main.gameLogic.*;
 import main.java.gameLogic.Grid;
 import main.java.gameLogic.Region;
 import main.java.gameLogic.RegionMap;
