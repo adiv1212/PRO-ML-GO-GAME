@@ -4,7 +4,8 @@ import main.java.gameLogic.stone.StoneColor;
 
 public abstract class Client {
     private StoneColor color;
-
+    private boolean actionPerformed;
+    
     public abstract void play();
 
     public Client() {
@@ -18,4 +19,12 @@ public abstract class Client {
     public void setColor(StoneColor color) {
         this.color = color;
     }
+
+	public boolean isActionPerformed() {
+		return actionPerformed;
+	}
+
+	public void setActionPerformed(boolean actionPerformed) {
+		this.actionPerformed = actionPerformed;
+	}
 }

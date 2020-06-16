@@ -9,6 +9,8 @@ import main.java.gameLogic.board.Clients.Client;
 import main.java.gameLogic.stone.Point;
 import main.java.gameLogic.stone.StoneColor;
 
+
+
 public class Board extends JPanel {
     private static final Board instance = new Board();
     /**
@@ -56,10 +58,15 @@ public class Board extends JPanel {
         this.player2.setColor(StoneColor.WHITE);
         this.currentPlayer = player1;
         this.currentPlayer.play();
+        while(true) {
+        	System.out.print("1");
+        	if (!currentPlayer.isActionPerformed()) break;
+        }
+        System.out.println(lastMove);
         while (!grid.over()) {
-            if (lastMove != null) {
-                this.lastMove = null;
-                //this.switchPlayer();
+        	if (lastMove != null) {
+            	this.lastMove = null;
+                this.switchPlayer();
                 this.currentPlayer.play();
             }
         }

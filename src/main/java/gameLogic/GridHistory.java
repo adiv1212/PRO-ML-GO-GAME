@@ -12,7 +12,7 @@ import main.java.gameLogic.stone.StoneColor;
 public class GridHistory {
     private GridHash currentHash;
     private GridHash lastHash;
-    Set<Long> history;
+    Collection<Long> history;
 
     public GridHistory() {
         currentHash = new GridHash(0);
