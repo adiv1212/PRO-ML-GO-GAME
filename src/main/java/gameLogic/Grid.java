@@ -141,7 +141,7 @@ public class Grid {
         conductQueue();
         //System.out.println(stones.get(point).liberties);
         pass = 0;
-        System.out.println("5");
+        System.out.println("ADDED STONE");
         return true;
     }
 
@@ -355,7 +355,6 @@ public class Grid {
     }
 
     public boolean over() {
-        // TODO Auto-generated method stub
         return pass == 2;
     }
 }

@@ -12,9 +12,8 @@ public class CpuClient extends Client {
 
 	public void action( boolean pass,int x, int y) {
 		Board board = Board.getInstance();
-        int row = y;
-        int col = x;
-        System.out.println(row + " and " + col);
+        int row = x;
+        int col = y;
         if (pass) {
         	board.grid.passTurn();
             if (board.grid.over()) {
@@ -22,13 +21,15 @@ public class CpuClient extends Client {
             }
         } 
         else {
-        	boolean flag = true;
+        	/*boolean flag = true;
         	do {
         		row = rnd.nextInt(9);
         		col = rnd.nextInt(9);
+                System.out.println(col + " and " + row);
         		flag=!board.grid.addStone(new Point(row, col), board.getCurrentPlayer().getColor());
-        	}while(flag);
-        	board.lastMove = new Point(col, row);
+        	}while(flag);*/
+        	board.grid.addStone(new Point(row, col), board.getCurrentPlayer().getColor());
+        	board.lastMove = new Point(row, col);
             board.repaint();
         }
         /*else if (!board.grid.addStone(new Point(row, col), board.getCurrentPlayer().getColor())) {
@@ -45,9 +46,16 @@ public class CpuClient extends Client {
 	
 	@Override
 	public void play() {
+    	//System.out.println("cpu client play was called");
+
+		//action(false);//example for input from the network.
+	}
+	
+	@Override
+	public void play(int x, int y) {
     	System.out.println("cpu client play was called");
 
-		action(false, rnd.nextInt(9),rnd.nextInt(9));//example for input from the network.
+		action(false,x,y);//example for input from the network.
 	}
 	
 }

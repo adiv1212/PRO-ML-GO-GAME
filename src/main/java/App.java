@@ -2,6 +2,8 @@ package main.java;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -21,11 +23,11 @@ public class App {
 
     private static final boolean IS_TEST = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException, IOException {
         new App().init();
     }
 
-    private void init() {
+    private void init() throws UnknownHostException, IOException {
         JFrame f = new JFrame();
         f.setTitle(TITLE);
 
@@ -38,6 +40,7 @@ public class App {
         Board board = Board.getInstance();
         Client player1 = new HumanClient();
         Client player2 = new CpuClient();
+
         container.add(board);
 
         f.pack();

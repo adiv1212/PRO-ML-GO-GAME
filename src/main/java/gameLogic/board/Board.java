@@ -1,11 +1,15 @@
 package main.java.gameLogic.board;
 
 import java.awt.*;
+import java.net.*;
+import java.io.*;
+
 
 import javax.swing.JPanel;
 
 import main.java.gameLogic.Grid;
 import main.java.gameLogic.board.Clients.Client;
+import main.java.gameLogic.board.Clients.CpuClient;
 import main.java.gameLogic.stone.Point;
 import main.java.gameLogic.stone.StoneColor;
 
@@ -43,11 +47,17 @@ public class Board extends JPanel {
     private Client player1, player2, currentPlayer;
     public Grid grid;
     public Point lastMove = null;
+	private Socket s;
+	private PrintWriter pr;
+	private InputStreamReader in;
+	private BufferedReader bf;
+	
 
     private Board() {
     }
 
-    public void startGame(Client player1, Client player2) {
+    public void startGame(Client player1, Client player2) throws UnknownHostException, IOException {
+    	
         this.setBackground(Color.ORANGE);
         this.setFocusable(true);
         grid = new Grid(SIZE);
@@ -57,19 +67,46 @@ public class Board extends JPanel {
         this.player1.setColor(StoneColor.BLACK);
         this.player2.setColor(StoneColor.WHITE);
         this.currentPlayer = player1;
+        if(player2 instanceof CpuClient) {
+        createSocket();
+		}
+
         this.currentPlayer.play();
         while(true) {
-        	System.out.print("1");
+        	System.out.println("");
         	if (!currentPlayer.isActionPerformed()) break;
         }
         System.out.println(lastMove);
+
         while (!grid.over()) {
         	if (lastMove != null) {
-            	this.lastMove = null;
                 this.switchPlayer();
-                this.currentPlayer.play();
+                if(this.currentPlayer==this.player2) {
+            		char colConvert = (char)(lastMove.getCol() + 65);
+            		char rowConvert = (char)(57 - lastMove.getRow());
+            		pr.println(colConvert + "" + rowConvert);
+            		pr.flush();
+            		String str="";
+            		while(true) {
+                    	str = bf.readLine();
+                    	System.out.println("str:" + str);
+            			if(str!="") break; 
+            		}
+            		System.out.println("OUT");
+                	char rowBackConvert = (char)(str.charAt(1) - 48);
+            		char colBackConvert = (char)(str.charAt(0) - 48);
+                	this.lastMove = null;
+            		this.currentPlayer.play(colBackConvert,rowBackConvert);            		
+            		
+                }
+                else{
+                	this.lastMove = null;
+                    this.currentPlayer.play();
+                }
             }
         }
+        pr.println("VIC");
+        pr.flush();
     }
 
     public static Board getInstance() {
@@ -84,6 +121,19 @@ public class Board extends JPanel {
         }
     }
 
+    private void createSocket() throws UnknownHostException, IOException {
+    	s = new Socket("localhost",12345);
+		pr = new PrintWriter(s.getOutputStream());
+//		pr.println("");
+	//	pr.flush();
+		
+		in = new InputStreamReader(s.getInputStream());
+		bf = new BufferedReader(in);
+		
+		//String str =bf.readLine();
+		//System.out.println(str);
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -122,8 +172,8 @@ public class Board extends JPanel {
         // Highlight last move
         if (lastMove != null) {
             g2.setColor(Color.RED);
-            g2.drawOval(lastMove.getRow() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
-                    lastMove.getCol() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
+            g2.drawOval(lastMove.getCol() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
+                    lastMove.getRow() * TILE_SIZE + BORDER_SIZE - TILE_SIZE / 2,
                     TILE_SIZE, TILE_SIZE);
         }
     }

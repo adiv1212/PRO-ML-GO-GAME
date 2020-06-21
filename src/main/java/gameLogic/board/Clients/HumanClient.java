@@ -44,7 +44,7 @@ public class HumanClient extends Client {
                 } else if (!board.grid.addStone(new Point(row, col), board.getCurrentPlayer().getColor())) {
                     return;
                 } else {
-                    board.lastMove = new Point(col, row);
+                    board.lastMove = new Point(row, col);
                    // board.switchPlayer();
                     actionPerformed = false;
                     System.out.println(actionPerformed);
@@ -55,9 +55,11 @@ public class HumanClient extends Client {
         board.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+            	//if(!actionPerformed)return;
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     board.grid.passTurn();
                     board.switchPlayer();
+                    //actionPerformed = false;
                     if (board.grid.over()) {
                         System.out.println(board.grid.winner() + " wins.");
                     }

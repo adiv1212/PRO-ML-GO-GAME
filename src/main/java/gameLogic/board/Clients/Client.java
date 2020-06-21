@@ -27,4 +27,9 @@ public abstract class Client {
 	public void setActionPerformed(boolean actionPerformed) {
 		this.actionPerformed = actionPerformed;
 	}
+
+	public void play(int x, int y) {
+		
+	}
+
 }
