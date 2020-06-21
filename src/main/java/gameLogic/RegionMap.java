@@ -8,8 +8,7 @@ public class RegionMap {
     public Collection<Region> regions;
     public Map<Point, Region> regionMap;
 
-    RegionMap(Collection<Region> regions,
-              Map<Point, Region> regionMap) {
+    RegionMap(Collection<Region> regions, Map<Point, Region> regionMap) {
         this.regions = regions;
         this.regionMap = regionMap;
     }

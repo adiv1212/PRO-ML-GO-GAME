@@ -141,7 +141,7 @@ public class Grid {
         conductQueue();
         //System.out.println(stones.get(point).liberties);
         pass = 0;
-        System.out.println("ADDED STONE");
+        //System.out.println("ADDED STONE");
         return true;
     }
 

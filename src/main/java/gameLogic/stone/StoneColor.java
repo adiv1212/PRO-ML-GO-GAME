@@ -2,7 +2,7 @@ package main.java.gameLogic.stone;
 
 
 public enum StoneColor {
-    BLACK(0, "BLACK", 1),
+    BLACK(0, "BLACK", 1),		
     WHITE(1, "WHITE", -1);
     private int value;
     private String name;

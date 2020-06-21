@@ -1,9 +1,15 @@
 package main.java.gameLogic.board.Clients;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 import main.java.gameLogic.board.Board;
 import main.java.gameLogic.stone.Point;
@@ -13,7 +19,7 @@ public class HumanClient extends Client {
     }
 
     private boolean actionPerformed;
-
+    
     
 	public boolean isActionPerformed() {
 		return actionPerformed;
@@ -27,10 +33,10 @@ public class HumanClient extends Client {
 
 	@Override
     public void play() {
-    	System.out.println("human client play was called");
+    	//System.out.println("human client play was called");
         Board board = Board.getInstance();
         actionPerformed=true;
-        System.out.println(actionPerformed);
+        //System.out.println(actionPerformed);
         board.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -46,25 +52,44 @@ public class HumanClient extends Client {
                 } else {
                     board.lastMove = new Point(row, col);
                    // board.switchPlayer();
-                    actionPerformed = false;
-                    System.out.println(actionPerformed);
+                    actionPerformed = false; 
+                   // System.out.println(actionPerformed + "e");
                     board.repaint();
                 }
             }
         });
+        
+        board.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "pass");
+        board.getActionMap().put("pass", new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+			public void actionPerformed(ActionEvent e) {
+	        	board.grid.passTurn();
+	        	board.grid.passTurn();
+	        //  board.switchPlayer();
+	            //if (board.grid.over()) {
+	                System.out.println(board.grid.winner() + " wins.");
+	            //}
+        	}
+        });
+        /*
         board.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-            	//if(!actionPerformed)return;
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            	System.out.println("key :" +actionPerformed);
+            	if(actionPerformed!=true) {
+            		System.out.println("plz");
+            		return;
+            	}
+            	if (e.getKeyCode() == KeyEvent.VK_SPACE) {//error
                     board.grid.passTurn();
                     board.switchPlayer();
-                    //actionPerformed = false;
                     if (board.grid.over()) {
                         System.out.println(board.grid.winner() + " wins.");
                     }
+                    actionPerformed = false;
                 }
             }
         });
+        */
     }
 }

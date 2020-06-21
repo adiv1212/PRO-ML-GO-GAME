@@ -8,7 +8,7 @@ public class CpuClient extends Client {
 	public CpuClient() {
 	}
 
-	private static Random rnd = new Random();
+	//private static Random rnd = new Random();
 
 	public void action( boolean pass,int x, int y) {
 		Board board = Board.getInstance();
@@ -16,9 +16,10 @@ public class CpuClient extends Client {
         int col = y;
         if (pass) {
         	board.grid.passTurn();
-            if (board.grid.over()) {
+        	board.grid.passTurn();
+            //if (board.grid.over()) {
                 System.out.println(board.grid.winner() + " wins.");
-            }
+            //}
         } 
         else {
         	/*boolean flag = true;
@@ -52,10 +53,10 @@ public class CpuClient extends Client {
 	}
 	
 	@Override
-	public void play(int x, int y) {
-    	System.out.println("cpu client play was called");
+	public void play(boolean pass, int x, int y) {
+    	//System.out.println("cpu client play was called");
 
-		action(false,x,y);//example for input from the network.
+		action(pass,x,y);//example for input from the network.
 	}
 	
 }

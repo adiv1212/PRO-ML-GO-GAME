@@ -76,7 +76,7 @@ public class Board extends JPanel {
         	System.out.println("");
         	if (!currentPlayer.isActionPerformed()) break;
         }
-        System.out.println(lastMove);
+       // System.out.println(lastMove);
 
         while (!grid.over()) {
         	if (lastMove != null) {
@@ -89,15 +89,19 @@ public class Board extends JPanel {
             		String str="";
             		while(true) {
                     	str = bf.readLine();
-                    	System.out.println("str:" + str);
+                    	//System.out.println("str:" + str);
             			if(str!="") break; 
             		}
-            		System.out.println("OUT");
-                	char rowBackConvert = (char)(str.charAt(1) - 48);
-            		char colBackConvert = (char)(str.charAt(0) - 48);
-                	this.lastMove = null;
-            		this.currentPlayer.play(colBackConvert,rowBackConvert);            		
-            		
+            		//System.out.println("OUT");
+            		/*if(str=="null") {
+            			this.currentPlayer.play(true,0,0);
+            		}*/
+            		//else {
+            			char rowBackConvert = (char)(str.charAt(1) - 48);
+            			char colBackConvert = (char)(str.charAt(0) - 48);
+            			this.lastMove = null;
+            			this.currentPlayer.play(false,colBackConvert,rowBackConvert);            		
+            	//	}
                 }
                 else{
                 	this.lastMove = null;
